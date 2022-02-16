@@ -11,7 +11,7 @@ function Box1() {
             opacity:0.5
         }}
         animate={{
-            x: isAnimating? 1200: 0,
+            x: isAnimating?  [0, 500, 1200]: 0,
             rotate:isAnimating? 360: 0,
             opacity:  isAnimating? 1 : 0.5
         }}

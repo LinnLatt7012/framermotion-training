@@ -29,3 +29,15 @@
   list-style: none;
   margin: 0.2rem;
 }
+
+button{
+  color: white;
+  background-color: cornflowerblue;
+  padding: 0.5rem;
+  margin-right:  1rem;
+  border:none;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  width: 10rem;
+  cursor: pointer;
+}

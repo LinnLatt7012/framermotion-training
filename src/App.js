@@ -1,10 +1,10 @@
 import FirstApp from './firstTraining/App';
+import DragApp from './dragdrop/DragApp';
 
 function App() {
   return (
-    <div >
-      <FirstApp />
-    </div>
+      // <FirstApp />
+      <DragApp />
     
   );
 }

@@ -1,7 +1,7 @@
 import React, { useRef} from "react";
 import ReactDOM from 'react-dom';
 import { useState } from "react";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { motion, AnimateSharedLayout, useMotionValue,useViewportScroll} from "framer-motion";
 import { useViewportWidth } from "./useViewportWidth";
 import "./styles.css";
 
@@ -17,9 +17,10 @@ export default function DragApp() {
   const viewportWidth = useViewportWidth();
   const [activeHalf, setActiveHalf] = useState("a");
   const con = useRef()
-  const onViewportBoxUpdate = ({ x }) => {
+  const onViewportBoxUpdate = ({ x },event) => {
     const zoneViewport = viewportWidth.current / 3;
-    console.log(ReactDOM.findDOMNode(con.current).querySelectorAll('.half-container .overlay')[2].getBoundingClientRect().left);
+
+    // console.log(ReactDOM.findDOMNode(con.current).querySelectorAll('.half-container .overlay')[2].getBoundingClientRect().left);
     if (x < zoneViewport) {
       setActiveHalf("a");
     } else if (zoneViewport < x && x< zoneViewport*2 ) {
@@ -27,7 +28,7 @@ export default function DragApp() {
     } else if (x > zoneViewport*2) {
       setActiveHalf("c");
     }
-    console.log(con,'x :',x,"perZone",x < zoneViewport, zoneViewport < x  && x< zoneViewport*2,zoneViewport *2 < x);
+    console.log(event,'x :',x,"perZone",x < zoneViewport, zoneViewport < x  && x< zoneViewport*2,zoneViewport *2 < x);
   };
 
   return (
@@ -54,10 +55,10 @@ export default function DragApp() {
 }
 
 function Zone({ color, isSelected, onViewportBoxUpdate }) {
-    
+    const root = useRef()
   return (
     <div className="half-container" >
-      <motion.div className="overlay" />
+      <motion.div className="overlay" ref={root} />
       {isSelected && (
         <motion.div
           className="box"
@@ -68,9 +69,12 @@ function Zone({ color, isSelected, onViewportBoxUpdate }) {
           // Snap the box back to its center when we let go
           dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
           // Allow full movememnt outside constraints
+          // viewport={{root: root }}
+
+          // onViewportLeave
           dragElastic={1}
           onDragEnd={
-            (event, info) =>  onViewportBoxUpdate(info.point)
+            (event, info) =>  onViewportBoxUpdate(info.point,event)
           }
         />
       )}
